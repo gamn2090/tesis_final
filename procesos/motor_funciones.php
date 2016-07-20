@@ -1,9 +1,27 @@
 <?php 
 	session_start();
 	$nivel=$_SESSION['nivel'];
-	$bandera=$_SESSION['bandera']; 
+	$bandera=$_SESSION['bandera'];
  	include('../config.php');
- 	include('funciones.php');	
+ 	include('CRetiros.php');	
+ 	include('CReingresos.php');	
+ 	include('CCDE.php');	
+ 	include('CRazon_proceso.php');
+  	include('CHistorico.php');
+  	include('CUsers.php');
+  	include('CSolicitudes.php');
+
+
+ 	$objRetiros = new Retiro();
+ 	$objHistorico = new Historico();
+ 	$objReingresos = new Reingreso();
+ 	$objCDE = new CDE();
+ 	$objRazon = new Razon_proceso();
+ 	$objSolicitudes = new Solicitudes();
+ 	$objUsers = new User();
+
+ 	//$objRetiros = new Retiro;
+
     if(isset($_POST['accion'])){ $accion=$_POST['accion']; 
     switch ($accion){ 		
 		case 'Guardar':/*ingresa una nueva solicitud*/	  	
@@ -15,10 +33,10 @@
 			$proceso=$_POST['proceso'];
 			$razon=$_POST['razon'];
 			
-	  		Ingresar_solicitud($cedula, $razon, $proceso, $conn);
+	  		$objSolicitudes->Ingresar_solicitud($cedula, $razon, $proceso);
 			}		
 		break; 		
- 		case 'Ingresar':/*insertar nuevas relaciones procesos/razones*/
+ 		/*case 'Ingresar':/*insertar nuevas relaciones procesos/razones
 		//echo "holis";
 		//var_dump($conn);
 			if(isset($_POST['Proceso'])  
@@ -29,10 +47,10 @@
 			$razon=$_POST['Razon'];
 			$puntaje=$_POST['Puntaje'];
 			$porcentaje=$_POST['Porcentaje'];			
-			/*echo $porcentaje, $puntaje,$razon,$proceso;*/			
- 			ingresar_procesos($proceso, $razon, $puntaje, $porcentaje,$conn);
+			/*echo $porcentaje, $puntaje,$razon,$proceso;			
+ 			ingresar_procesos($proceso, $razon, $puntaje);
 			}			
- 		break; 		
+ 		break; */		
  		case 'Entrar':/*login estudiante*/
  		 	if(isset($_POST['cedula'])  
 			&& isset($_POST['contraseña']))
@@ -40,7 +58,7 @@
 				session_start();
 				$cedula = $_POST['cedula'];
 				$contraseña = $_POST['contraseña'];
-			loguear($cedula,$contraseña,$conn);			
+			$objUsers->loguear($cedula,$contraseña);			
 			}			
 		break;
  		case 'Accesar':/*loguear en la coordinación*/
@@ -50,26 +68,26 @@
 				$usuario = $_POST['usuario'];
 				$contraseña = $_POST['contraseña'];
 			//var_dump($conn); 						
-			loguear_coord($usuario,$contraseña,$conn);			
+			$objUsers->loguear_coord($usuario,$contraseña);			
 			}			
  		break; 		
- 		case 'Evaluar Bachiller': /*evaluar bachiller*/
+ 		/*case 'Evaluar Bachiller': /*evaluar bachiller
  		 		mostrar($cedula,$nombre,$apellido,$email,$celular,$direccion,$promedio,$discapacidad,$nacionalidad,$solicitudes2,$proceso);
- 		break;	
+ 		break;	*/
  		case 'mostrar_proceso_ret': 				
- 				$array=mostrar_proceso('Retiro',$bandera,$nivel,$conn);
+ 				$array = $objRetiros->mostrar_proceso('Retiro',$bandera,$nivel);
  				echo $array;
  		break;	
  		case 'mostrar_proceso_rei':
- 				$array=mostrar_proceso('Reingreso',$bandera,$nivel,$conn);
+ 				$array=$objReingresos->mostrar_proceso('Reingreso',$bandera,$nivel);
  				echo $array;
  		break;
  		case 'mostrar_proceso_cde': 
- 				$array=mostrar_proceso('Cambio',$bandera,$nivel,$conn);
+ 				$array=$objCDE->mostrar_proceso('Cambio',$bandera,$nivel);
  				echo $array;			
  		break;
  		case 'mostrar_historico': 
- 				$array=visualizar_historico($nivel,$conn);
+ 				$array=$objHistorico->visualizar_historico($nivel);
  				echo $array;			
  		break;
  		case 'ingresar_historico':
@@ -92,11 +110,11 @@
 					}
 						if($decision=="Indefinida")
 						{
-						$mensaje1=ingresar_historico($exp,$cedula,$fecha_solicitud,$razon,$promedio,$solicitudes,$solicitud_actual,$aval,$fecha,$medidas,$decision2,$observaciones,$acuerdo,$conn);
+						$mensaje1=$objHistorico->ingresar_historico($exp,$cedula,$fecha_solicitud,$razon,$promedio,$solicitudes,$solicitud_actual,$aval,$fecha,$medidas,$decision2,$observaciones,$acuerdo);
 						}
 						else
 						{					
-							$mensaje1=ingresar_historico($exp,$cedula,$fecha_solicitud,$razon,$promedio,$solicitudes,$solicitud_actual,$aval,$fecha,$medidas,$decision,$observaciones,$acuerdo,$conn);
+							$mensaje1=$objHistorico->ingresar_historico($exp,$cedula,$fecha_solicitud,$razon,$promedio,$solicitudes,$solicitud_actual,$aval,$fecha,$medidas,$decision,$observaciones,$acuerdo);
 						}
 						$mensaje=$exp;
 						header("location: ../llamadas/resultado.php?mensaje=$mensaje");
@@ -106,7 +124,7 @@
 				$puntaje=$_POST['puntaje'];
 				$fecha=$_POST['fecha'];
 				$razon=$_POST['razon'];
-				$bandera=actualizar_puntaje($proceso, $razon, $puntaje,$fecha,$conn);
+				$bandera=$objRazon->actualizar_puntaje($proceso, $razon, $puntaje,$fecha);
 				header("location: ../llamadas/cambio_valores.php?bandera=$bandera");	
  		break;
  		case 'crear_cuenta':
@@ -117,7 +135,7 @@
 			$usuario=$_POST['usuario'];
 			$contraseña=$_POST['contraseña'];
 			$privilegios=$_POST['privilegios'];
-			$funcion=crear_cuenta($cedula,$nombre,$apellido,$sexo,$usuario,$contraseña,$privilegios,$conn);
+			$funcion=$objUsers->crear_cuenta($cedula,$nombre,$apellido,$sexo,$usuario,$contraseña,$privilegios);
 			if($funcion==1)
 				{
 					header("location: ../coordinacion_principal.php?mensaje=$funcion");
@@ -132,8 +150,8 @@
 				$puntaje=$_POST['puntaje'];
 				$ponderacion=$_POST['ponderacion'];
 				$razon=$_POST['razon'];
-				$fecha=fecha_hoy();
-				$funcion=ingresar_razon($proceso,$razon,$puntaje,$ponderacion,$fecha,$conn);				
+				$fecha=$objSolicitudes->fecha_hoy();
+				$funcion=$objRazon->ingresar_razon($proceso,$razon,$puntaje,$fecha);				
 				header("location: ../coordinacion_principal.php?mensaje=$funcion");					
 		break;
 		case 'mostrar_valores_iguales':
@@ -150,27 +168,35 @@
 					$tiempo_sol=$_POST['fecha'];	//=
 					$medidas=$_POST['medidas'];	//=
 					$observaciones=$_POST['observaciones'];	
-					$array=visualizar_antecedentes($razon,$promedio,$solicitudes,$solicitud_actual,$aval,$tiempo_sol,$medidas,$conn);	
+					$array=$objHistorico->visualizar_antecedentes($razon,$promedio,$solicitudes,$solicitud_actual,$aval,$tiempo_sol,$medidas,$conn);	
 					echo $array;				
 		break;
 		case 'cambios':
 				$demanda=$_POST['demanda'];
 				$carrera=$_POST['carrera'];
 				$oferta=$_POST['oferta'];
-				$mensaje=ingresar_cambio($demanda,$oferta,$carrera,$conn);
-				header("location: ../llamadas/resultado.php?mensaje=$mensaje");
+				if($demanda > 0)
+				{
+					$mensaje=$objCDE->ingresar_cambio($demanda,$oferta,$carrera);
+					header("location: ../llamadas/resultado.php?mensaje=$mensaje");
+				}
+				else
+				{
+					header("location: ../llamadas/guardar.php?mensaje=4");
+				}
 
 		break;
 
 		case 'mostrar_valor_ret': 				
- 				$array=mostrar_puntaje('Retiro',$conn);
+ 				$array=$objRazon->mostrar_puntaje('Retiro');
  				echo $array;
  		break;			
-		case 'mostrar_valor_cde': 				
- 				$array=mostrar_puntaje('Cambio',$conn);
+		case 'mostrar_valor_rein': 				
+ 				$array=$objRazon->mostrar_puntaje('Reingreso');
  				echo $array;
  		break;	
-		case 'Evaluar_estudiante': 				
+		/*case 'Correcto': 
+		//echo "holis";					
  				$cedula=$_POST['cedula'];
 				$proceso=$_POST['solicitud'];
 				$fecha=$_POST['fecha'];
@@ -181,9 +207,23 @@
 				$nucleo=$_POST['nucleo'];
 				$estatus=$_POST['estatus'];
 				$asignatura=$_POST['asignatura'];
-			   ingresar_solicitud($cedula,$proceso,$fecha,$razon,$periodo,$anio,$especialidad,$nucleo,$estatus,$asignatura,$conn);
- 		break;
-
+			    $bandera=ingresar_solicitud($cedula,$proceso,$fecha,$razon,$periodo,$anio,$especialidad,$nucleo,$estatus,$asignatura,$conn);
+			    $cedula2=base64_encode($cedula);
+				header("location: pantalla_retiro.php?cedula=$cedula2&bandera=$bandera");
+ 		break;*/
+		case 'cargar': 
+				$proceso=$_POST['proceso'];		
+				if($proceso!='')
+				{		
+	 				$bandera=$objSolicitudes->cargar_solicitudes($proceso);
+	 				header("location: ../llamadas/obtener_procesos.php?mensaje=$bandera");
+ 				}
+ 				else
+ 				{	
+ 					$bandera='900';
+ 					header("location: ../llamadas/obtener_procesos.php?mensaje=$bandera");
+ 				}
+ 		break;	
 
 		}//fin switch	
 	}//fin isset[$_post[accion]]

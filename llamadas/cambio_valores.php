@@ -3,22 +3,26 @@ session_start();
       $usuario=$_SESSION['usuario'];
       $nivel=$_SESSION['nivel'];  
       $bandera=$_SESSION['bandera'];  
+
+  
+  include('../procesos/CRazon_proceso.php');
+  $objRazon = new Razon_proceso();
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<title>Cambiar valores del tomador de decisiones</title>
+  <link rel="shortcut icon" href="../udo.ico" />
 	<link href="../css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/font.css">
     <script type="text/javascript" src="../jquery/probandini.js"></script>
     <script type="text/javascript" src="jquery/jquery-2.1.1.js"></script>
- <?php
-	include ("../procesos/funciones.php");
-	include ("../config.php");
-?>
+
 </head>
 <body onload="myFunction()">
 <nav class="white" role="navigation">
@@ -29,6 +33,8 @@ session_start();
           <ul id='dropdown1' class='dropdown-content'>
             <li><a href="../coordinacion_principal.php">Inicio</a></li>
             <li><a href="procesos.php">Procesos</a></li>
+            <li><a href="obtener_procesos.php">Cargar Procesos</a></li>
+
              <?php
             if($nivel==$bandera)
             {   
@@ -47,7 +53,7 @@ session_start();
     <div class="section no-pad-bot">
       <div class="container">
         <br><br>
-        <h1 id="nombre" class="header center blue-text text-darken-1">DECISIONES</h1>
+        <h1 id="nombre" class="header center blue-text text-darken-1"><?php echo $proceso=$_GET['proceso']; ?></h1>
         <div class="row center">          
         </div>        
         <br><br>
@@ -91,7 +97,7 @@ session_start();
 			$razon=base64_decode($razon);
 			$puntaje=$_GET['puntaje'];
 			$puntaje=base64_decode($puntaje);
-			cambiar_valor_TDD($proceso,$razon,$puntaje,$conn);
+			$objRazon->cambiar_valor_TDD($proceso,$razon,$puntaje);
 		}
 	}
 ?>
@@ -127,34 +133,25 @@ session_start();
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
-          <h5 class="white-text">Company Bio</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+          <h5 class="white-text">UNIVERSIDAD DE ORIENTE</h5>
+          <p class="grey-text text-lighten-4">Contribuir a la formación de profesionales de excelencia, de valores éticos y morales, críticos, creativos e integrales en la prestación de servicios en las diferentes áreas del conocimiento y desarrollando actividades de investigación, docencia y extensión para cooperar en la construcción de una sociedad venezolana de la Región Oriental - Insular - Sur del país.</p>
 
 
         </div>
         <div class="col l3 s12">
-          <h5 class="white-text">Settings</h5>
+          <h5 class="white-text">Conocenos</h5>
           <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
+            <li><a class="white-text" href="http://www.udo.edu.ve/" target="_blank">Universidad de Oriente</a></li>
+            <li><a class="white-text" href="http://bibliotecadigital.udo.edu.ve/" target="_blank">Biblioteca General</a></li>
+            <li><a class="white-text" href="http://servicios.sucre.udo.edu.ve/cacns/" target="_blank">Coordinación Académica Núcleo de Sucre</a></li>
+            <li><a class="white-text" href="http://estudiantes.sucre.udo.edu.ve/" target="_blank">DACENS</a></li>
           </ul>
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Connect</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
+        </div>        
       </div>
     </div>
     <div class="footer-copyright">
       <div class="container">
-      Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+      Hecho por <a class="brown-text text-lighten-3" href="https://www.facebook.com/gustavo.mattey" target="_blank">Gustavo Adolfo Mattey Nouaihed</a>
       </div>
     </div>
   </footer>

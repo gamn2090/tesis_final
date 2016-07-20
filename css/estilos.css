@@ -140,7 +140,7 @@ a:hover {
     text-align: center;
     z-index: 1;
 }
-.clear {
+.clear_div {
     clear: both;
 }
 .titulo {

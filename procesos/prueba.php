@@ -1,28 +1,13 @@
-<?php
-	
-	include('../config.php');
-
-			$query="SELECT COUNT (exp) AS total_rt FROM decisiones WHERE (exp LIKE 'RT-%')";
-			$result=$conn->Execute($query);			
-			if($result==false)
-			{
-				echo "error al recuperar: ".$conn->ErrorMsg()."<br>" ;
-			}
-			else
-			{		
-
-				while(!$result->EOF) 
-				{	
-					for ($i=0, $max=$result->FieldCount(); $i<$max; $i++)
-					{							
-						$cont=$result->fields['total_rt'];				
-						$result->MoveNext();											
-						break;												
-					}
-					
-					
-				}
-			} 
-			echo $cont;
-				
-?>
+<div id="myModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- dialog body -->
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        Hello world!
+      </div>
+      <!-- dialog buttons -->
+      <div class="modal-footer"><button type="button" class="btn btn-primary">OK</button></div>
+    </div>
+  </div>
+</div>

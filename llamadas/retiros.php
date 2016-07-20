@@ -1,6 +1,6 @@
 <?php
 include('../config.php');
-include('../procesos/funciones.php');
+//include('../procesos/funciones.php');
 $proceso="Retiro";
 session_start();
 $nivel=$_SESSION['nivel'];
@@ -18,18 +18,20 @@ $bandera=$_SESSION['bandera'];
     <table id="mytable" class="display" style="text-align:center" cellspacing="0" width="100%">
         <thead>
             <tr>
-                <th>cedula</th>
-                <th>numero</th>
-                <th>razon</th>  
-                <th>accion</th>               
+                <th>cédula</th>
+                <th>Solicitud número</th>
+                <th>aval</th>
+                <th>razón</th>  
+                <th>acción</th>               
             </tr>
         </thead>        
         <tfoot>
             <tr>
-                <th>cedula</th>
-                <th>numero</th>
-                <th>razon</th>  
-                 <th>accion</th>               
+                <th>cédula</th>
+                <th>Solicitud número</th>
+                <th>aval</th>              
+                <th>razón</th>  
+                 <th>acción</th>               
             </tr>
         </tfoot>
     </table>
@@ -57,12 +59,13 @@ $(document).ready(function(){
                               },
                     "sAjaxDataProp": "",
                     "processing": true,
-                    "pageLength": 20,
+                    //"pageLength": 20,
                    // "serverSide": true,
                      columns: 
                      [
                         {data:"cedula"},
                         {data:"numero"},
+                        {data:"aval"},
                         {data:"razon"},
                         {data:"link"}                       
                       ]    

@@ -3,12 +3,14 @@
       $usuario=$_SESSION['usuario'];
       $nivel=$_SESSION['nivel'];  
       $bandera=$_SESSION['bandera'];  
-  include ("../procesos/CUsers.php");
-  $objUsers = new User();
-  //include ("../config.php");
+    include('../procesos/CUsers.php');
+    $objUsers = new User();
+
+    include ("../config.php");
   
 if($usuario!= NULL)
 {
+		//echo $_GET['mensaje'];
 ?>
 <!DOCTYPE html>
 <!DOCTYPE html>
@@ -29,6 +31,7 @@ if($usuario!= NULL)
   <link rel="stylesheet" href="../css/font.css">
 </head>
 <body>
+
   <nav class="white" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" href="../coordinacion_principal.php" class="brand-logo"><img src="../img/udo.gif" alt=""></a>
@@ -81,7 +84,7 @@ if($usuario!= NULL)
         <div class="user_container" id="user"><i class=" icon-user-check"></i>
           <span id="userName">        
             <?php     
-              $objUsers->cargar_datos_coord($usuario);
+             $objUsers->cargar_datos_coord($usuario,$conn);
             ?>
           </spam>
         </div>   
@@ -90,20 +93,35 @@ if($usuario!= NULL)
   <div class="container">
     <div class="section">
 
-    <div class="row">
-      <div class="col s12"> 
-      <div class="clear_div"></div>      
-        <ul class="tabs">
-          <li id="historico" data-url="historico.php" class="tab col s3"><a href="#">Ver Histórico</a></li>
-          <li id="retiros" data-url="retiros.php" class="tab col s3"><a href="#">Retiros</a></li>
-          <li id="reingresos" data-url="reingreso.php" class="tab col s3"><a href="#">Reingresos</a></li>
-          <li id="CDE" data-url="cambio_especialid.php" class="tab col s3"><a href="#">Cambio de Especialidades</a></li>
-        </ul> 
-      <div class="clear_div"></div>       
-      </div>       
-        <div id="principal" class="col s12"> 
+   
+             
+        <div id="main" class="col s12">   
+        
+                <form id="cargar_procesos" class="col s12" action="../procesos/motor_funciones.php" method="POST">
+   	
+					        
+					        <div class="row">
+					        <div class="input-field col s6 offset-s3">
+						    <select id="proceso" name="proceso">
+						      <option value="" disabled selected>Proceso a cargar</option>
+						      <option value="Retiro">Retiro académico</option>
+						      <option value="Reingreso">Reingreso académico</option>
+                  <option value="Cambio">Cambio de especialidad</option>
+						    </select>
+						    </div>
+						   	</div>
+                <div class="divider"></div>
+                <div class="row">                       
+                    <div class="col m12 offset">
+                        <p class="center-align">
+                            <button class="btn btn-large waves-effect waves-light" id="cargar" type="submit" value="cargar" name="accion" title="login">Cargar Procesos</button>
+                        </p>
+                    </div>
+                </div>
+					</form>	
+                
         </div>
-    </div> 
+     
     </div> 
    </div> 
 
@@ -113,7 +131,7 @@ if($usuario!= NULL)
         <img src="../img/udosucre.png"> <!-- random image -->
         <div class="caption right-align">
           <h3 class="black-text text-lighten-3">Universidad de Oriente</h3>
-          <h5 class="white-text text-lighten-3">"Del pueblo venimos y hacia el pueblo vamos"</h5>
+          <h5 class="white-text text-lighten-3">Excelencia académica</h5>
         </div>
       </li>
       <li>
@@ -160,10 +178,46 @@ if($usuario!= NULL)
   </footer>
 
   <!--  Scripts-->
-  <script src="../js/jquery.js"></script>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
   <script type="text/javascript" language="javascript" src="../js/jquery.dataTables.js"></script>  
   <script src="../js/materialize.js"></script> 
   <script src="../js/init.js"></script>
+  <?php
+      if(isset($_GET['mensaje']) && $_GET['mensaje']>0 && $_GET['mensaje']!='900')
+       {  $cant=$_GET['mensaje'];
+        ?>          
+          <script>
+            
+                     alert("Solicitudes insertadas");
+            
+          </script>      
+        <?php
+        }
+        else
+        {
+          if(isset($_GET['mensaje']) && $_GET['mensaje']==0)
+          {
+          ?>
+            <script>
+              
+                alert("No hay nuevas solicitudes");
+              
+            </script> 
+            <?php 
+          }
+          else
+          {
+              if(isset($_GET['mensaje']) && $_GET['mensaje']=='900')  
+              {?>
+                <script>
+              
+                alert("Elija un proceso");
+              
+                </script> <?php 
+              }     
+          }
+        }
+    ?>          
   </body>
 </html>
 <?php

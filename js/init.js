@@ -2,8 +2,7 @@ $(document).ready(function(){
   $('.parallax').parallax();
   $(".button-collapse").sideNav();
   $('.slider').slider({full_width: true});
-  $('ul.tabs').tabs();
-  $(".button-collapse").sideNav();
+  $('ul.tabs').tabs(); 
   $('select').material_select();
   carga("historico.php");
   carga2("crear_cuenta.php");	

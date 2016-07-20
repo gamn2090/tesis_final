@@ -1,15 +1,15 @@
 <?php
 include('../config.php');
-include('../procesos/funciones.php');
+//include('../procesos/funciones.php');
 $proceso="Retiro";
 session_start();
 $nivel=$_SESSION['nivel'];
 $bandera=$_SESSION['bandera']; 
 ?>
-	<!DOCTYPE html>
+    <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">  	
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">     
     <!-- <link rel="stylesheet" type="text/css" href="../css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="../css/dataTables.editor.css">   -->
 </head>
@@ -22,21 +22,21 @@ $bandera=$_SESSION['bandera'];
     <table id="mytable" class="display" style="text-align:center" cellspacing="0" width="100%">
         <thead>
             <tr>
-                <th>cedula</th>
-                <th>solicitud actual</th>
-                <th>fecha de solicitud</th>
-                <th>razon</th>  
-                <th>resultado</th>   
+                <th>Cedula</th>
+                <th>Solicitud actual</th>
+                <th>Semestre de la solicitud</th>                
+                <th>Razon</th>  
+                <th>Resultado</th>   
                 <th>Accion</th>            
             </tr>
         </thead>        
         <tfoot>
             <tr>
-                <th>cedula</th>
-                <th>solicitud actual</th>
-                <th>fecha de solicitud</th>
-                <th>razon</th>  
-                <th>resultado</th>   
+                <th>Cedula</th>
+                <th>Solicitud actual</th>               
+                <th>Semestre de la solicitud</th>                
+                <th>Razon</th>  
+                <th>Resultado</th>   
                 <th>Accion</th>              
             </tr>
         </tfoot>
@@ -61,7 +61,7 @@ $bandera=$_SESSION['bandera'];
                          [
                             {data:"cedula"},
                             {data:"solicitud"},                            
-                            {data:"fecha"},
+                            {data:"semestre"},
                             {data:"razon"},
                             {data:"resultado"},
                             {data:"link"}                        
@@ -78,20 +78,20 @@ $bandera=$_SESSION['bandera'];
         <table id="mytable" class="display" style="text-align:center" cellspacing="0" width="100%">
         <thead>
             <tr>
-                <th>cedula</th>
-                <th>solicitud actual</th>
-                <th>fecha de solicitud</th>
-                <th>razon</th>  
-                <th>resultado</th>                            
+                <th>Cedula</th>
+                <th>Solicitud actual</th>               
+                <th>Semestre de la solicitud</th>                
+                <th>Razon</th>  
+                <th>Resultado</th>                             
             </tr>
         </thead>        
         <tfoot>
             <tr>
-                <th>cedula</th>
-                <th>solicitud actual</th>
-                <th>fecha de solicitud</th>
-                <th>razon</th>  
-                <th>resultado</th>                            
+                <th>Cedula</th>
+                <th>Solicitud actual</th>
+                <th>Semestre de la solicitud</th>                
+                <th>Razon</th>  
+                <th>Resultado</th>                            
             </tr>
         </tfoot>
     </table>  
@@ -116,7 +116,7 @@ $bandera=$_SESSION['bandera'];
                          [
                             {data:"cedula"},
                             {data:"solicitud"},                            
-                            {data:"fecha"},
+                            {data:"semestre"},
                             {data:"razon"},
                             {data:"resultado"}
                             
@@ -141,6 +141,6 @@ $bandera=$_SESSION['bandera'];
 
 
 
-	
-					
-				
+    
+                    
+                

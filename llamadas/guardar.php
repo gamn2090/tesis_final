@@ -9,6 +9,7 @@ session_start();
 <head>
 	<meta charset="UTF-8">
 	<title>Muestra de datos del estudiante</title>
+  <link rel="shortcut icon" href="../udo.ico" />
 	<link href="../css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link rel="stylesheet" href="../css/main.css">
@@ -16,11 +17,12 @@ session_start();
     <script type="text/javascript" src="../jquery/probandini.js"></script>
     <script type="text/javascript" src="jquery/jquery-2.1.1.js"></script>
  <?php
-	include ("../procesos/funciones.php");
-	include ("../config.php");
+    include('../procesos/CSolicitudes.php');
+    $objSolicitudes = new Solicitudes();
+
 ?>
 </head>
-<body onload="myFunction()">
+<body>
 <nav class="white" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" href="../coordinacion_principal.php" class="brand-logo"><img src="../img/udo.gif" alt=""></a>
@@ -29,6 +31,7 @@ session_start();
           <ul id='dropdown1' class='dropdown-content'>
             <li><a href="../coordinacion_principal.php">Inicio</a></li>
             <li><a href="procesos.php">Procesos</a></li>
+            <li><a href="obtener_procesos.php">Cargar Procesos</a></li>
              <?php
             if($nivel==$bandera)
             {   
@@ -58,7 +61,21 @@ session_start();
   <br><br>
 	<div class="container">
 		<div id="evaluar" class="content">
-			 <?php          
+			 <?php  
+
+           if(isset($_GET['mensaje']) && $_GET['mensaje']==4)
+           {
+             ?>          
+              <script>
+                 
+                      alert("No hay solicitudes de cambios para esta materia");
+                      window.close();
+              </script>      
+            <?php
+           }
+           else
+           {      
+
           	if(isset($_POST['Nombre']))
 						{
 							$nombre=$_POST['Nombre'];
@@ -70,21 +87,34 @@ session_start();
 							$nacionalidad=$_POST['nacionalidad'];
 							$solicitudes=$_POST['solicitudes'];
 							$solicitud_actual=$_POST['Sol_actual'];
-							$aval=$_POST['aval'];
+
+               if(isset($_POST['cambio']))
+               {
+						  	$aval1=$_POST['aval'];             
+                $cambio=$_POST['cambio'];
+                $aval=$aval1.''.$cambio;
+              }
+              else
+              {
+                $aval=$_POST['aval']; 
+              }
+
+              
+
 							$cant_soli=$_POST['cant_soli'];
 							$fecha=$_POST['fecha'];	
 							$anio=$_POST['anio'];		
               $numero_soli=$_POST['numero_soli'];	
 						}
-						$resultado=validar_solicitud($numero_soli,$anio,$fecha,$cedula,$razon,$solicitud_actual,$aval,$conn);						
+						$resultado=$objSolicitudes->validar_solicitud($numero_soli,$anio,$fecha,$cedula,$razon,$solicitud_actual,$aval);						
 					if($resultado==1)
           { 
           ?>    
                 <script>
-                    function myFunction() {
+                   
                         alert("Resultado guardado exitosamente");
                         window.close();
-                    }
+                   
                 </script>
           <?php
           }
@@ -94,14 +124,15 @@ session_start();
             {
             ?>          
                   <script>
-                      function myFunction() {
+                    
                           alert("Resultado no guardado");
                           window.close();
-                      }
+                      
                   </script>      
             <?php
             }
-          }	
+          }
+        }
 				
 			?>
 		
@@ -137,34 +168,25 @@ session_start();
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
-          <h5 class="white-text">Company Bio</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+          <h5 class="white-text">UNIVERSIDAD DE ORIENTE</h5>
+          <p class="grey-text text-lighten-4">Contribuir a la formación de profesionales de excelencia, de valores éticos y morales, críticos, creativos e integrales en la prestación de servicios en las diferentes áreas del conocimiento y desarrollando actividades de investigación, docencia y extensión para cooperar en la construcción de una sociedad venezolana de la Región Oriental - Insular - Sur del país.</p>
 
 
         </div>
         <div class="col l3 s12">
-          <h5 class="white-text">Settings</h5>
+          <h5 class="white-text">Conocenos</h5>
           <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
+            <li><a class="white-text" href="http://www.udo.edu.ve/" target="_blank">Universidad de Oriente</a></li>
+            <li><a class="white-text" href="http://bibliotecadigital.udo.edu.ve/" target="_blank">Biblioteca General</a></li>
+            <li><a class="white-text" href="http://servicios.sucre.udo.edu.ve/cacns/" target="_blank">Coordinación Académica Núcleo de Sucre</a></li>
+            <li><a class="white-text" href="http://estudiantes.sucre.udo.edu.ve/" target="_blank">DACENS</a></li>
           </ul>
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Connect</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
+        </div>        
       </div>
     </div>
     <div class="footer-copyright">
       <div class="container">
-      Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+      Hecho por <a class="brown-text text-lighten-3" href="https://www.facebook.com/gustavo.mattey" target="_blank">Gustavo Adolfo Mattey Nouaihed</a>
       </div>
     </div>
   </footer>

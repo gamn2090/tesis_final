@@ -1,6 +1,5 @@
 <?php
 include('../config.php');
-include('../procesos/funciones.php');
 ?>				
 <body>
 

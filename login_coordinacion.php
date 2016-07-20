@@ -9,13 +9,15 @@ session_start();
 <head>
 	<meta charset="UTF-8">
 	<title>Coordinación Académica</title>
+	<link rel="shortcut icon" href="udo.ico" />
+
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/font.css">
 		<link rel="stylesheet" href="css/para_el_index.css">
 
    
-    <script type="text/javascript" src="jquery/jquery-2.1.1.js"></script>
-    <script type="text/javascript" src="jquery/probandini.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/init.js"></script>
     
     
 <?php
